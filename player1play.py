@@ -1,4 +1,3 @@
-import os
 import playsound 
 import neopixel
 import board
@@ -13,25 +12,16 @@ pixel_num = 45
 pixels = neopixel.NeoPixel(pixel_pin, pixel_num, brightness = 1, auto_write = False)
 pulse = Pulse(pixels, speed = 0.1, color = AMBER, period = 3)
 
-SoundFilePath = "Happy_Voice.wav"
-
-global SoundPlaying
-SoundPlaying = False
-
-def AnimateLoop():
-      global SoundPlaying
+def soundloop():
       while True:
-            if SoundPlaying == True:
-                print("Animation!")
-                pulse.animate()
-            else:
-                print("NO Animation")
+            playsound.playsound("Happy_Voice.wav")
 
-thread1 = threading.Thread(target=AnimateLoop)
+def animateloop():
+      while True:
+            pulse.animate()
+
+thread1 = threading.Thread(target=soundloop)
 thread1.start()
 
-SoundPlaying = True
-playsound.playsound(SoundFilePath)
-SoundPlaying = False
-
-exit()
+thread2 = threading.Thread(target=animateloop)
+thread2.start()
